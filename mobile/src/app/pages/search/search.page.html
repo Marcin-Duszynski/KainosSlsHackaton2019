@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Find a book</ion-title>
+  </ion-toolbar>
+  <ion-toolbar color="dark">
+    <ion-searchbar [(ngModel)]="searchKey"></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button size="small" shape="round" color="medium" (click)="searchFilter()">
+        <ion-icon name="options"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="bg-white" *ngFor="let book of books" >
+    <ion-img [src]="themeCover"></ion-img>
+    <ion-button expand="full" color="secondary" (click)="presentImage(themeCover)" >
+      {{book.title}}
+    </ion-button>
+  </ion-card>
+  <ion-item class="bg-profile">
+
+  </ion-item>
+
+  <ion-list no-border>
+  </ion-list>
+</ion-content>

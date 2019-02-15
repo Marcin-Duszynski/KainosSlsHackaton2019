@@ -6,7 +6,7 @@
     <ion-title>Find a book</ion-title>
   </ion-toolbar>
   <ion-toolbar color="dark">
-    <ion-searchbar [(ngModel)]="searchKey"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="searchKey" (ngModelChange)="this.executeSearch()"></ion-searchbar>
     <ion-buttons slot="end">
       <ion-button size="small" shape="round" color="medium" (click)="searchFilter()">
         <ion-icon name="options"></ion-icon>
@@ -16,8 +16,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-card class="bg-white" *ngFor="let book of books" >
-    <ion-img [src]="themeCover"></ion-img>
+  <ion-card class="bg-white" *ngFor="let book of results.hits" >
+    <ion-img [src]="book.image"></ion-img>
     <ion-button expand="full" color="secondary" (click)="presentImage(themeCover)" >
       {{book.title}}
     </ion-button>

@@ -9,5 +9,16 @@
 </ion-header>
 
 <ion-content>
-  <img [src]="value">
+  <ion-card class="bg-white">
+    <ion-img [src]="themeCover"></ion-img>
+    <ion-label>
+      <h2 no-margin class="fw500 no-margin">
+        <ion-text color="dark">{{book.title}}</ion-text>
+      </h2>
+
+      <p class="text-11x no-margin">
+        <ion-text  color="primary">{{book.author}}</ion-text>
+      </p>
+    </ion-label>
+  </ion-card>
 </ion-content>

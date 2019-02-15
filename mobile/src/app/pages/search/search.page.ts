@@ -9,6 +9,7 @@ import {
 
 // Modals
 import { SearchFilterPage } from '../../pages/modal/search-filter/search-filter.page';
+import { ImagePage } from './../modal/image/image.page';
 
 @Component({
   selector: 'app-search',
@@ -40,6 +41,14 @@ constructor(public navCtrl: NavController,
   async searchFilter () {
     const modal = await this.modalCtrl.create({
       component: SearchFilterPage
+    });
+    return await modal.present();
+  }
+
+  async bookDetails(book: any) {
+    const modal = await this.modalCtrl.create({
+      component: ImagePage,
+      componentProps: { value: book }
     });
     return await modal.present();
   }

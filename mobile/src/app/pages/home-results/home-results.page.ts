@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   NavController,
   AlertController,
@@ -6,6 +6,7 @@ import {
   ToastController,
   PopoverController,
   ModalController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 
 // Modals
 import { SearchFilterPage } from '../../pages/modal/search-filter/search-filter.page';
@@ -13,27 +14,35 @@ import { ImagePage } from './../modal/image/image.page';
 // Call notifications test by Popover and Custom Component.
 import { NotificationsComponent } from './../../components/notifications/notifications.component';
 
+const searchUrl="https://66tinypak8.execute-api.eu-west-1.amazonaws.com/marcind-hackaton/booksloan/user/marcind";
+const searchUrl2="https://66tinypak8.execute-api.eu-west-1.amazonaws.com/marcind-hackaton/reservations/user/marcind";
+
 @Component({
   selector: 'app-home-results',
   templateUrl: './home-results.page.html',
   styleUrls: ['./home-results.page.scss']
 })
-export class HomeResultsPage {
+export class HomeResultsPage implements OnInit {
   searchKey = '';
   yourLocation = '123 Test Street';
   themeCover = 'assets/img/ionic4-Start-Theme-cover.jpg';
 
   books: any = [
-    { 'id': 0, 'title': 'Thinking in java', 'author': 'Wojciech', 'description': 'blalal ' },
-    { 'id': 1, 'title': '.NET', 'author': 'Przemyslaw', 'description': 'Woddsdv jciech' },
-    { 'id': 2, 'title': 'Started', 'author': 'Marcin', 'description': 'ghnh cfdgd dfdgfdfg' }
+    { 'id': 0, 'bookName': 'Thinking in java', 'author': 'Wojciech', 'description': 'blalal ' },
+    { 'id': 1, 'bookName': '.NET', 'author': 'Przemyslaw', 'description': 'Woddsdv jciech' },
+    { 'id': 2, 'bookName': 'Started', 'author': 'Marcin', 'description': 'ghnh cfdgd dfdgfdfg' }
   ];
 
   reservedBooks: any = [
-    { 'id': 56, 'title': 'Special me', 'author': 'Wojciech', 'description': 'blalal', 'status': 'available' },
-    { 'id': 234, 'title': 'Kubernetes', 'author': 'Przemyslaw', 'description': 'Woddsdv jciech', 'status': 'available' },
-    { 'id': 67, 'title': 'Lion King', 'author': 'Marcin', 'description': 'ghnh cfdgd dfdgfdfg', 'status': 'borrowed' }
+    { 'id': 56, 'bookName': 'Special me', 'author': 'Wojciech', 'description': 'blalal', 'status': 'available' },
+    { 'id': 234, 'bookName': 'Kubernetes', 'author': 'Przemyslaw', 'description': 'Woddsdv jciech', 'status': 'available' },
+    { 'id': 67, 'bookName': 'Lion King', 'author': 'Marcin', 'description': 'ghnh cfdgd dfdgfdfg', 'status': 'borrowed' }
   ];
+
+  ngOnInit() {
+    this.http.get<any>(`${searchUrl}`).subscribe((results => this.books=results.books));
+    this.http.get<any>(`${searchUrl2}`).subscribe((results => this.reservedBooks=results.books));
+  }
 
   constructor(
     public navCtrl: NavController,
@@ -41,7 +50,8 @@ export class HomeResultsPage {
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    private http: HttpClient
   ) {
 
   }

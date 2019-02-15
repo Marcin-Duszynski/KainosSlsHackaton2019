@@ -30,12 +30,12 @@
     <ion-item lines="none" color="medium" *ngFor="let book of books">
       <ion-label>
         <h2 no-margin class="fw500 no-margin">
-          <ion-text color="dark">{{book.title}}</ion-text>
+          <ion-text color="dark">{{book.bookName}}</ion-text>
         </h2>
 
-        <p class="text-11x no-margin">
+        <!-- <p class="text-11x no-margin">
           <ion-text  color="primary">{{book.author}}</ion-text>
-        </p>
+        </p> -->
       </ion-label>
       <ion-button shape="round" fill="outline" size="small" color="primary" (click)="returnBook()">
         Return
@@ -46,7 +46,7 @@
 
   <div *ngFor="let book of reservedBooks">
     <ion-button expand="full" color="secondary" (click)="presentImage(themeCover)" >
-      {{book.title}} {{book.author}}
+      {{book.bookName}}
     </ion-button>
   </div>
 

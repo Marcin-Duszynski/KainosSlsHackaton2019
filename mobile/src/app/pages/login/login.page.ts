@@ -9,7 +9,7 @@ import { NavController, MenuController, ToastController, AlertController, Loadin
 })
 export class LoginPage implements OnInit {
   public onLoginForm: FormGroup;
-
+  
   constructor(
     public navCtrl: NavController,
     public menuCtrl: MenuController,
@@ -24,7 +24,6 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-
     this.onLoginForm = this.formBuilder.group({
       'email': [null, Validators.compose([
         Validators.required

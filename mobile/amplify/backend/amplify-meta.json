@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "smartkainos-20190215110059-authRole",
+            "UnauthRoleArn": "arn:aws:iam::425110442143:role/smartkainos-20190215110059-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::425110442143:role/smartkainos-20190215110059-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "smartkainos-20190215110059-deployment",
+            "UnauthRoleName": "smartkainos-20190215110059-unauthRole",
+            "StackName": "smartkainos-20190215110059",
+            "StackId": "arn:aws:cloudformation:eu-west-1:425110442143:stack/smartkainos-20190215110059/98c7c880-3108-11e9-a804-0aac5439e4be"
+        }
+    }
+}

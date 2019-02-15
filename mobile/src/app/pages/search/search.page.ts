@@ -17,6 +17,7 @@ import { Subject } from 'rxjs';
 
 // Modals
 import { SearchFilterPage } from '../../pages/modal/search-filter/search-filter.page';
+import { ImagePage } from './../modal/image/image.page';
 
 const searchUrl="https://lvg9oskwyg.execute-api.eu-west-1.amazonaws.com/lukaszs-hackaton/search";
 
@@ -91,4 +92,13 @@ constructor(public navCtrl: NavController,
     console.log(this.searchKey);
     this.searchQuery.next(this.searchKey);
   }
+
+  async bookDetails(book: any) {
+    const modal = await this.modalCtrl.create({
+      component: ImagePage,
+      componentProps: { value: book }
+    });
+    return await modal.present();
+  }
+
 }

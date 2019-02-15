@@ -133,7 +133,7 @@ export class HomeResultsPage {
   async bookDetails(book: any) {
     const modal = await this.modalCtrl.create({
       component: ImagePage,
-      componentProps: { value: image }
+      componentProps: { value: book }
     });
     return await modal.present();
   }

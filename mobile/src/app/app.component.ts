@@ -29,6 +29,12 @@ export class AppComponent {
         icon: 'home'
       },
       {
+        title: 'Search',
+        url: '/search',
+        direct: 'root',
+        icon: 'home'
+      },
+      {
         title: 'About',
         url: '/about',
         direct: 'forward',

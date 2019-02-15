@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import {
+  NavController,
+  AlertController,
+  MenuController,
+  ToastController,
+  PopoverController,
+  ModalController } from '@ionic/angular';
+
+// Modals
+import { SearchFilterPage } from '../../pages/modal/search-filter/search-filter.page';
 
 @Component({
   selector: 'app-search',
@@ -18,7 +27,8 @@ export class SearchBooksPage implements OnInit {
   paymentMethods: any = ['Paypal', 'Credit Card'];
   currencies: any = ['USD', 'BRL', 'EUR'];
 
-  constructor(public navCtrl: NavController) { }
+  constructor(public navCtrl: NavController,
+    public modalCtrl: ModalController) { }
 
   ngOnInit() {
   }
@@ -29,6 +39,13 @@ export class SearchBooksPage implements OnInit {
 
   logout() {
     this.navCtrl.navigateRoot('/');
+  }
+
+  async searchFilter () {
+    const modal = await this.modalCtrl.create({
+      component: SearchFilterPage
+    });
+    return await modal.present();
   }
 
 }

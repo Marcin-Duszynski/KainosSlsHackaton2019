@@ -2,8 +2,14 @@ service: sls-hackaton
 provider:
   name: aws
   runtime: nodejs8.10
+  region: eu-west-1
   stage: ${env:sls_stage}-hackaton
 
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-dynamodb-autoscaling
+  - serverless-aws-documentation
+  - serverless-reqvalidator-plugin
 
 # you can overwrite defaults here
 #  stage: dev
@@ -75,13 +81,56 @@ functions:
 #    environment:
 #      variable2: value2
 
-# you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
+resources:
+  Resources:
+    LoanBooks:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: LoanBooks-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: objectID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: objectID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    Reservations:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Reservations-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: objectID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: objectID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+custom:
+  capacities:
+    - table: LoanBooks
+      read:
+        minimum: 1
+        maximum: 20
+        usage: 0.75
+      write:
+        minimum: 1
+        maximum: 5
+        usage: 0.75
+    - table: Reservations
+      read:
+        minimum: 1
+        maximum: 20
+        usage: 0.75
+      write:
+        minimum: 1
+        maximum: 5
+        usage: 0.75
+
 #  Outputs:
 #     NewOutput:
 #       Description: "Description for the output"

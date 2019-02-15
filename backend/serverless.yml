@@ -28,7 +28,7 @@ functions:
       owner: ${self:provider.stage}
     events:
       - http:
-          path: /booksloan/{userName}
+          path: /booksloan/user/{userName}
           method: get
           integration: lambda
           reqValidatorName: lambdaRequestValidator
@@ -55,7 +55,7 @@ functions:
       owner: ${self:provider.stage}
     events:
       - http:
-          path: /booksloan/{bookId}
+          path: /booksloan/book/{bookId}
           method: get
           integration: lambda
           reqValidatorName: lambdaRequestValidator
@@ -82,7 +82,7 @@ functions:
       owner: ${self:provider.stage}
     events:
       - http:
-          path: /reservations/{bookId}
+          path: /reservations/book/{bookId}
           method: get
           integration: lambda
           reqValidatorName: lambdaRequestValidator
@@ -109,7 +109,7 @@ functions:
       owner: ${self:provider.stage}
     events:
       - http:
-          path: /reservations/{userName}
+          path: /reservations/user/{userName}
           method: get
           integration: lambda
           reqValidatorName: lambdaRequestValidator
@@ -141,14 +141,10 @@ resources:
             AttributeType: S
           - AttributeName: bookId
             AttributeType: S
-          - AttributeName: bookName
-            AttributeType: S
         KeySchema:
           - AttributeName: userName
             KeyType: HASH
           - AttributeName: bookId
-            KeyType: RANGE
-          - AttributeName: bookName
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
@@ -162,14 +158,10 @@ resources:
             AttributeType: S
           - AttributeName: bookId
             AttributeType: S
-          - AttributeName: bookName
-            AttributeType: S
         KeySchema:
           - AttributeName: userName
             KeyType: HASH
           - AttributeName: bookId
-            KeyType: RANGE
-          - AttributeName: bookName
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1

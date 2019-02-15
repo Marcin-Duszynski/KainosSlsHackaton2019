@@ -1,0 +1,23 @@
+{
+  "name": "kainosslshackaton2019",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "dependencies": {
+    "serverless": "^1.37.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marcin-Duszynski/KainosSlsHackaton2019.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Marcin-Duszynski/KainosSlsHackaton2019/issues"
+  },
+  "homepage": "https://github.com/Marcin-Duszynski/KainosSlsHackaton2019#readme"
+}

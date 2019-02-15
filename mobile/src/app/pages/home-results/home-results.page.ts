@@ -23,6 +23,18 @@ export class HomeResultsPage {
   yourLocation = '123 Test Street';
   themeCover = 'assets/img/ionic4-Start-Theme-cover.jpg';
 
+  books: any = [
+    { 'id': 0, 'title': 'Thinking in java', 'author': 'Wojciech', 'description': 'blalal ' },
+    { 'id': 1, 'title': '.NET', 'author': 'Przemyslaw', 'description': 'Woddsdv jciech' },
+    { 'id': 2, 'title': 'Started', 'author': 'Marcin', 'description': 'ghnh cfdgd dfdgfdfg' }
+  ];
+
+  reservedBooks: any = [
+    { 'id': 56, 'title': 'Special me', 'author': 'Wojciech', 'description': 'blalal', 'status': 'available' },
+    { 'id': 234, 'title': 'Kubernetes', 'author': 'Przemyslaw', 'description': 'Woddsdv jciech', 'status': 'available' },
+    { 'id': 67, 'title': 'Lion King', 'author': 'Marcin', 'description': 'ghnh cfdgd dfdgfdfg', 'status': 'borrowed' }
+  ];
+
   constructor(
     public navCtrl: NavController,
     public menuCtrl: MenuController,
@@ -40,6 +52,28 @@ export class HomeResultsPage {
 
   settings() {
     this.navCtrl.navigateForward('settings');
+  }
+
+  async returnBook() {
+    const returnBook = await this.alertCtrl.create({
+      header: 'Return Book',
+      message: 'Go to reception to return this book',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'OK',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    returnBook.present();
   }
 
   async alertLocation() {
@@ -89,6 +123,14 @@ export class HomeResultsPage {
   }
 
   async presentImage(image: any) {
+    const modal = await this.modalCtrl.create({
+      component: ImagePage,
+      componentProps: { value: image }
+    });
+    return await modal.present();
+  }
+
+  async bookDetails(book: any) {
     const modal = await this.modalCtrl.create({
       component: ImagePage,
       componentProps: { value: image }

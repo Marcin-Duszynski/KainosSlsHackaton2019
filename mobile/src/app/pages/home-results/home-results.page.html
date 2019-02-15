@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>
         <ion-text color="light">
-          <ion-text color="light" class="fw700">Ionic 4 Start</ion-text>
+          <ion-text color="light" class="fw700">Kainos Library</ion-text>
         </ion-text>
     </ion-title>
     <ion-buttons slot="end">
@@ -27,34 +27,40 @@
 
 <ion-content>
   <ion-card no-margin class="no-radius">
-    <ion-item lines="none" color="medium">
+    <ion-item lines="none" color="medium" *ngFor="let book of books">
       <ion-label>
         <h2 no-margin class="fw500 no-margin">
-          <ion-text color="dark">Alert / Toast test</ion-text>
+          <ion-text color="dark">{{book.title}}</ion-text>
         </h2>
 
         <p class="text-11x no-margin">
-          <ion-text  color="primary">{{yourLocation}}</ion-text>
+          <ion-text  color="primary">{{book.author}}</ion-text>
         </p>
       </ion-label>
-      <ion-button shape="round" fill="outline" size="small" color="primary" (click)="alertLocation()">
-        Location
-        <ion-icon name="locate"></ion-icon>
+      <ion-button shape="round" fill="outline" size="small" color="primary" (click)="returnBook()">
+        Return
+        <!--<ion-icon name="locate"></ion-icon>-->
       </ion-button>
     </ion-item>
   </ion-card>
 
-  <ion-card class="bg-white">
-    <ion-img [src]="themeCover"></ion-img>
-    <ion-button expand="full" color="dark" (click)="presentImage(themeCover)" no-margin>
-      Modal 1: Modal Image
+  <div *ngFor="let book of reservedBooks">
+    <ion-button expand="full" color="secondary" (click)="presentImage(themeCover)" >
+      {{book.title}} {{book.author}}
     </ion-button>
-  </ion-card>
+  </div>
+
+  <!--<ion-card class="bg-white" *ngFor="let book of reservedBooks" >-->
+    <!--&lt;!&ndash;<ion-img [src]="themeCover"></ion-img>&ndash;&gt;-->
+    <!--<ion-button expand="full" color="secondary" (click)="presentImage(themeCover)" >-->
+      <!--Book 4455-->
+    <!--</ion-button>-->
+  <!--</ion-card>-->
 
   <ion-button margin shape="round" expand="full" color="secondary" (click)="searchFilter()">
     Modal 2: Search Filter
   </ion-button>
   
-  <popmenu></popmenu>
+  <!--<popmenu></popmenu>-->
 </ion-content>
   

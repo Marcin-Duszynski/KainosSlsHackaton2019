@@ -2,7 +2,7 @@
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-button size="small" shape="round" (click)="closeModal()" color="tertiary">
-        <ion-icon slot="start" name="close"></ion-icon> Close
+        <ion-icon slot="start" name="close"></ion-icon> Book Details
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -10,15 +10,39 @@
 
 <ion-content>
   <ion-card class="bg-white">
-    <ion-img [src]="themeCover"></ion-img>
-    <ion-label>
+    <ion-img [src]="value.image"></ion-img>
+    <ion-list-header>
+      <ion-text color="dark">
+        <h5>Title</h5>
+      </ion-text>
+    </ion-list-header>
+    <ion-item>
       <h2 no-margin class="fw500 no-margin">
-        <ion-text color="dark">{{book.title}}</ion-text>
+        <ion-text color="dark">{{value.title}}</ion-text>
       </h2>
+    </ion-item>
 
-      <p class="text-11x no-margin">
-        <ion-text  color="primary">{{book.author}}</ion-text>
-      </p>
-    </ion-label>
+    <ion-list-header>
+      <ion-text color="dark">
+        <h5>Author</h5>
+      </ion-text>
+    </ion-list-header>
+    <ion-item>
+      <h2 no-margin class="fw500 no-margin">
+        <ion-text color="dark">{{value.author}}</ion-text>
+      </h2>
+    </ion-item>
+
+    <ion-list-header>
+      <ion-text color="dark">
+        <h5>Description</h5>
+      </ion-text>
+    </ion-list-header>
+    <ion-item>
+      <h2 no-margin class="fw500 no-margin">
+        <ion-text color="dark">{{value.description}}</ion-text>
+      </h2>
+    </ion-item>
+
   </ion-card>
 </ion-content>

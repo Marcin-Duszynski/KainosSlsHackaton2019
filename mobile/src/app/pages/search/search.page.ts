@@ -16,18 +16,14 @@ import { SearchFilterPage } from '../../pages/modal/search-filter/search-filter.
   styleUrls: ['./search.page.scss'],
 })
 export class SearchBooksPage implements OnInit {
-  lang: any;
-  enableNotifications: any;
-  paymentMethod: any;
-  currency: any;
-  enablePromo: any;
-  enableHistory: any;
 
-  languages: any = ['English', 'Portuguese', 'French'];
-  paymentMethods: any = ['Paypal', 'Credit Card'];
-  currencies: any = ['USD', 'BRL', 'EUR'];
+  books: any = [
+    { 'id': 0, 'title': 'Thinking in java', 'author': 'Wojciech', 'description': 'blalal ' },
+    { 'id': 1, 'title': '.NET', 'author': 'Przemyslaw', 'description': 'Woddsdv jciech' },
+{ 'id': 2, 'title': 'Started', 'author': 'Marcin', 'description': 'ghnh cfdgd dfdgfdfg' }
+];
 
-  constructor(public navCtrl: NavController,
+constructor(public navCtrl: NavController,
     public modalCtrl: ModalController) { }
 
   ngOnInit() {

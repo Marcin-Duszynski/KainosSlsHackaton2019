@@ -6,7 +6,7 @@ import { NavController } from '@ionic/angular';
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
 })
-export class SearchPage implements OnInit {
+export class SearchBooksPage implements OnInit {
   lang: any;
   enableNotifications: any;
   paymentMethod: any;

@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ImagePage implements OnInit {
   @Input() value: any;
-  public image: any;
+  public book: any;
 
   constructor(
     private nav: NavController,
@@ -18,7 +18,9 @@ export class ImagePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.image = this.sanitizer.bypassSecurityTrustStyle(this.value);
+    this.book = this.sanitizer.bypassSecurityTrustStyle(this.value);
+    console.log('Cancel clicked');
+    console.log(this.book);
   }
 
   closeModal() {

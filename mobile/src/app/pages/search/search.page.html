@@ -18,14 +18,9 @@
 <ion-content>
   <ion-card class="bg-white" *ngFor="let book of books" >
     <ion-img [src]="themeCover"></ion-img>
-    <ion-button expand="full" color="secondary" (click)="presentImage(themeCover)" >
+    <ion-button expand="full" color="secondary" (click)="bookDetails(book)" >
       {{book.title}}
     </ion-button>
   </ion-card>
-  <ion-item class="bg-profile">
 
-  </ion-item>
-
-  <ion-list no-border>
-  </ion-list>
 </ion-content>

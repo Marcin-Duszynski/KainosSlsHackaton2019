@@ -19,7 +19,6 @@ export class ImagePage implements OnInit {
 
   ngOnInit() {
     this.book = this.sanitizer.bypassSecurityTrustStyle(this.value);
-    console.log('Cancel clicked');
     console.log(this.book);
   }
 

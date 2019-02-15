@@ -11,88 +11,145 @@ plugins:
   - serverless-aws-documentation
   - serverless-reqvalidator-plugin
 
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
-
 functions:
-  hello:
-    handler: handler.hello
-
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-#    events:
-#      - http:
-#          path: users/create
-#          method: get
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
+  getUserBorrowed:
+    name: getUserBorrowed-${self:provider.stage}
+    handler: getUserBorrowed.handler
+    memorySize: 256
+    environment:
+      STORE_DB_NAME: ${self:resources.Resources.LoanBooks.Properties.TableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:*:*:table/${self:resources.Resources.LoanBooks.Properties.TableName}
+    tags:
+      owner: ${self:provider.stage}
+    events:
+      - http:
+          path: /booksloan/{userName}
+          method: get
+          integration: lambda
+          reqValidatorName: lambdaRequestValidator
+          request:
+            parameters:
+              paths:
+                userName: true
+            passThrough: NEVER
+            template:
+              application/json: '{ "userName" : "$input.params(''userName'')" }'
+  getBookState:
+    name: getBookState-${self:provider.stage}
+    handler: getBookState.handler
+    memorySize: 256
+    environment:
+      STORE_DB_NAME: ${self:resources.Resources.LoanBooks.Properties.TableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:*:*:table/${self:resources.Resources.LoanBooks.Properties.TableName}
+    tags:
+      owner: ${self:provider.stage}
+    events:
+      - http:
+          path: /booksloan/{bookId}
+          method: get
+          integration: lambda
+          reqValidatorName: lambdaRequestValidator
+          request:
+            parameters:
+              paths:
+                bookId: true
+            passThrough: NEVER
+            template:
+              application/json: '{ "bookId" : "$input.params(''bookId'')" }'
+  getBookReservations:
+    name: getBookReservations-${self:provider.stage}
+    handler: getBookReservations.handler
+    memorySize: 256
+    environment:
+      STORE_DB_NAME: ${self:resources.Resources.Reservations.Properties.TableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:*:*:table/${self:resources.Resources.Reservations.Properties.TableName}
+    tags:
+      owner: ${self:provider.stage}
+    events:
+      - http:
+          path: /reservations/{bookId}
+          method: get
+          integration: lambda
+          reqValidatorName: lambdaRequestValidator
+          request:
+            parameters:
+              paths:
+                bookId: true
+            passThrough: NEVER
+            template:
+              application/json: '{ "bookId" : "$input.params(''bookId'')" }'
+  getUserReserved:
+    name: getUserReserved-${self:provider.stage}
+    handler: getUserReserved.handler
+    memorySize: 256
+    environment:
+      STORE_DB_NAME: ${self:resources.Resources.Reservations.Properties.TableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:*:*:table/${self:resources.Resources.Reservations.Properties.TableName}
+    tags:
+      owner: ${self:provider.stage}
+    events:
+      - http:
+          path: /reservations/{userName}
+          method: get
+          integration: lambda
+          reqValidatorName: lambdaRequestValidator
+          request:
+            parameters:
+              paths:
+                userName: true
+            passThrough: NEVER
+            template:
+              application/json: '{ "userName" : "$input.params(''userName'')" }'
 
 resources:
   Resources:
+    lambdaRequestValidator:
+      Type: "AWS::ApiGateway::RequestValidator"
+      Properties:
+        Name: 'searchrRequestValidator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: true
+    
     LoanBooks:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: LoanBooks-${self:provider.stage}
         AttributeDefinitions:
-          - AttributeName: objectID
+          - AttributeName: userName
+            AttributeType: S
+          - AttributeName: bookId
+            AttributeType: S
+          - AttributeName: bookName
             AttributeType: S
         KeySchema:
-          - AttributeName: objectID
+          - AttributeName: userName
             KeyType: HASH
+          - AttributeName: bookId
+            KeyType: RANGE
+          - AttributeName: bookName
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
@@ -101,11 +158,19 @@ resources:
       Properties:
         TableName: Reservations-${self:provider.stage}
         AttributeDefinitions:
-          - AttributeName: objectID
+          - AttributeName: userName
+            AttributeType: S
+          - AttributeName: bookId
+            AttributeType: S
+          - AttributeName: bookName
             AttributeType: S
         KeySchema:
-          - AttributeName: objectID
+          - AttributeName: userName
             KeyType: HASH
+          - AttributeName: bookId
+            KeyType: RANGE
+          - AttributeName: bookName
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
@@ -130,8 +195,3 @@ custom:
         minimum: 1
         maximum: 5
         usage: 0.75
-
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
